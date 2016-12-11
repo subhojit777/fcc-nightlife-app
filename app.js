@@ -4,9 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var TwitterStrategy = require('passport-twitter').Strategy;
+var session = require('express-session');
+require('dotenv').config();
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var User = require('./models/user.js');
 
 var app = express();
 
@@ -21,6 +27,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Session will expire after 1 week.
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  cookie: {
+    maxAge: 604800000
+  }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);
@@ -56,5 +73,36 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// Connect to database.
+mongoose.connect(process.env.MONGODB_URI);
+
+passport.use(new TwitterStrategy({
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL: process.env.TWITTER_CALLBACK_URL
+  },
+  function(token, tokenSecret, profile, done) {
+    User.findOrCreate({
+      userId: profile.id,
+      name: profile.username,
+      displayName: profile.displayName
+    }, function(err, user, created) {
+      if (err) { return done(err); }
+
+      done(null, user);
+    });
+  }
+));
+
+// Create the session.
+passport.serializeUser(function(user, done) {
+  done(null, user.userId);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findOne({'userId': id}, function(err, user) {
+    done(null, user._id);
+  });
+});
 
 module.exports = app;
