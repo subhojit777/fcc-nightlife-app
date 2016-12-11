@@ -10,7 +10,6 @@
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
-    "ejs": "~2.4.1",
     "express": "~4.13.4",
     "express-session": "^1.14.2",
     "mongoose": "^4.7.2",
@@ -19,7 +18,7 @@
     "oauth": "^0.9.14",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
-    "serve-favicon": "~2.3.0"
+    "pug": "^2.0.0-beta6"
   },
   "devDependencies": {
     "chai": "^3.5.0",
