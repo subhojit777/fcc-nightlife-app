@@ -1,0 +1,7 @@
+.ui.borderless.main.menu
+  .ui.container
+    a.header.item(href="/") Nightlife App
+    if loggedIn
+      a.ui.right.floated.item(href="/logout") Logout
+    else
+      a.ui.right.floated.item(href="/auth/twitter") Login
