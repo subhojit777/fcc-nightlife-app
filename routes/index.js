@@ -1,12 +1,23 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var yelp = require('../yelp/init');
+var freeGeoIp = require('../freegeoip/init');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', {
-    title: 'Nighlife App',
-    loggedIn: req.user ? true : false
+  freeGeoIp.freeGeoIpData(function(err, freeGeoIpResponse) {
+    if (err) next(err);
+
+    yelp.search(freeGeoIpResponse['city'], function(err, yelpResponse) {
+      if (err) next(err);
+
+      res.render('index', {
+        title: 'Nighlife App',
+        loggedIn: req.user ? true : false,
+        yelpData: yelpResponse
+      });
+    });
   });
 });
 

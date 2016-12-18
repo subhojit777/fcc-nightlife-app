@@ -1,4 +1,22 @@
 extends layouts/layout
 
 block content
-  h1= title
+  .ui.relaxed.divided.items
+    each data in yelpData.businesses
+      .item
+        if data.image_url
+          .ui.small.image
+            img(src= data.image_url)
+        .content
+          a.header(href= data.url, target="_blank")= data.name
+          .meta
+            each category in data.categories
+              = category
+          .extra
+            img(src= data.rating_img_url)
+          .extra
+             = data.phone
+          if data.is_closed
+            .ui.label Closed
+          else
+            .ui.label Opened
