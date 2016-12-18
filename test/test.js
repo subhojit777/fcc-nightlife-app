@@ -32,3 +32,23 @@ describe('Yelp', function() {
     });
   });
 });
+
+describe('FreeGeoIp', function() {
+  var freeGeoIp = require('../freegeoip/init');
+
+  describe('freeGeoIpData', function() {
+    it('should return a json response', function(done) {
+      // Maybe the Yelp response can be slow.
+      this.timeout(5000);
+
+      freeGeoIp.freeGeoIpData(function(err, data) {
+        if (err) done(err);
+
+        assert.isNotNull(data);
+        data.should.be.a('string');
+
+        done();
+      });
+    });
+  });
+});
