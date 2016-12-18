@@ -10,6 +10,6 @@ exports.freeGeoIpData = function(cb) {
 
     if (response.statusCode != 200) cb('Unable to fetch freegeoip data: ' + response);
 
-    cb(null, body);
+    cb(null, JSON.parse(body));
   });
 }

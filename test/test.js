@@ -21,11 +21,11 @@ describe('Yelp', function() {
       // Maybe the Yelp response can be slow.
       this.timeout(5000);
 
-      yelp.search(function(err, data) {
+      yelp.search('Delhi', function(err, data) {
         if (err) done(err);
 
         assert.isNotNull(data);
-        data.should.be.a('string');
+        data.should.be.an('object');
 
         done();
       });
@@ -45,7 +45,7 @@ describe('FreeGeoIp', function() {
         if (err) done(err);
 
         assert.isNotNull(data);
-        data.should.be.a('string');
+        data.should.be.an('object');
 
         done();
       });

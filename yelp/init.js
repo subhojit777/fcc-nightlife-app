@@ -14,15 +14,14 @@ var oauth = exports.oauth = new OAuth.OAuth(
   'HMAC-SHA1'
 );
 
-exports.search = function(cb) {
-  // @TODO change delhi location.
+exports.search = function(city, cb) {
   oauth.get(
-    'https://api.yelp.com/v2/search/?location=delhi',
+    'https://api.yelp.com/v2/search/?location=' + city,
     process.env.YELP_TOKEN,
     process.env.YELP_TOKEN_SECRET,
     function(e, data, res) {
       if (e) cb(e);
-      cb(null, data);
+      cb(null, JSON.parse(data));
     }
   );
 }
