@@ -20,3 +20,5 @@ block content
             .ui.label Closed
           else
             .ui.label Opened
+          if loggedIn
+            button.miny.ui.button(data-yelp-id= data.id) Going
