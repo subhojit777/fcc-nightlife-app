@@ -13,11 +13,25 @@ router.get('/', function(req, res, next) {
     yelp.search(freeGeoIpResponse['city'], function(err, yelpResponse) {
       if (err) next(err);
 
-      res.render('index', {
-        title: 'Nighlife App',
-        loggedIn: req.user ? true : false,
-        yelpData: yelpResponse
-      });
+      if (req.user) {
+        User.findOne({ userId: req.user }, function(err, user) {
+          if (err) next(err);
+
+          res.render('index', {
+            title: 'Nighlife App',
+            loggedIn: true,
+            yelpData: yelpResponse,
+            visitingPlaces: user.visiting
+          });
+        });
+      }
+      else {
+        res.render('index', {
+          title: 'Nighlife App',
+          loggedIn: false,
+          yelpData: yelpResponse
+        });
+      }
     });
   });
 });

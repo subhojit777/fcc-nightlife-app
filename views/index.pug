@@ -3,6 +3,14 @@ extends layouts/layout
 block content
   .ui.relaxed.divided.items
     each data in yelpData.businesses
+      - var visiting = false
+
+      //- Check if user is visiting the current Yelp business.
+      if visitingPlaces
+        each place in visitingPlaces
+          if place == data.id
+            - visiting = true
+
       .item
         if data.image_url
           .ui.small.image
@@ -21,6 +29,9 @@ block content
           else
             .ui.label Opened
           if loggedIn
-            button.miny.ui.button.visiting(data-yelp-id= data.id) Going
+            if visiting
+              button.miny.ui.button.visiting(data-yelp-id= data.id) Going yes
+            else
+              button.miny.ui.button.visiting(data-yelp-id= data.id) Going
 block script
   script(src='/javascript/visiting.js')
