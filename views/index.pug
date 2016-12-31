@@ -21,4 +21,6 @@ block content
           else
             .ui.label Opened
           if loggedIn
-            button.miny.ui.button(data-yelp-id= data.id) Going
+            button.miny.ui.button.visiting(data-yelp-id= data.id) Going
+block script
+  script(src='/javascript/visiting.js')
