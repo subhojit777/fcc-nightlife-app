@@ -51,14 +51,31 @@ router.get('/auth/twitter/callback', function(req, res, next) {
 });
 
 router.post('/is-going', function(req, res, next) {
-  // get existing visiting places
-  if (req.user) {
-    User.update({userId: req.user}, {$push: {visiting: req.body.yelpId}}, function(err, rawResponse) {
-      if (err) next(err);
+  User.checkIfVisiting(req.user, req.body.yelpId, function(err, doc) {
+    if (err) next(err);
 
-      res.json({'success': rawResponse});
-    });
-  }
+    // Toggles whether the user is visiting the business.
+    if (doc) {
+      User.update({ userId: req.user }, { $pull: { visiting: req.body.yelpId } }, function(err, rawResponse) {
+        if (err) next(err);
+
+        res.json({
+          'success': rawResponse,
+          'state': 'not-going'
+        });
+      });
+    }
+    else {
+      User.update({ userId: req.user }, { $push: { visiting: req.body.yelpId } }, function(err, rawResponse) {
+        if (err) next(err);
+
+        res.json({
+          'success': rawResponse,
+          'state': 'going'
+        });
+      });
+    }
+  });
 });
 
 module.exports = router;

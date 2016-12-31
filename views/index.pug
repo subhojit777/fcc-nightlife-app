@@ -30,8 +30,8 @@ block content
             .ui.label Opened
           if loggedIn
             if visiting
-              button.miny.ui.button.visiting(data-yelp-id= data.id) Going yes
+              button.ui.miny.button.positive.visiting(data-yelp-id= data.id) Going
             else
-              button.miny.ui.button.visiting(data-yelp-id= data.id) Going
+              button.ui.miny.button.visiting(data-yelp-id= data.id) Going
 block script
   script(src='/javascript/visiting.js')
