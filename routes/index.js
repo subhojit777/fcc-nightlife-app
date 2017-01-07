@@ -4,13 +4,15 @@ var passport = require('passport');
 var yelp = require('../yelp/init');
 var freeGeoIp = require('../freegeoip/init');
 var User = require('../models/user');
+var ipAddress = require('../middlewares/ipaddress');
+var getLocation = require('../middlewares/getlocation');
+
+router.use(ipAddress.getIpAddress);
+router.use(getLocation.getLocation);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  freeGeoIp.freeGeoIpData(function(err, freeGeoIpResponse) {
-    if (err) next(err);
-
-    yelp.search(freeGeoIpResponse['city'], function(err, yelpResponse) {
+    yelp.search(req.fccNighlifeAppLocation, function(err, yelpResponse) {
       if (err) next(err);
 
       if (req.user) {
@@ -33,7 +35,11 @@ router.get('/', function(req, res, next) {
         });
       }
     });
-  });
+});
+
+router.post('/', function(req, res, next) {
+  req.session.location = req.body.location;
+  res.redirect('/');
 });
 
 router.get('/auth/twitter', passport.authenticate('twitter'));
@@ -48,6 +54,11 @@ router.get('/auth/twitter/callback', function(req, res, next) {
       return res.redirect('/');
     });
   })(req, res, next);
+});
+
+router.get('/logout', function(req, res, next) {
+  req.logout();
+  res.redirect('/');
 });
 
 router.post('/is-going', function(req, res, next) {

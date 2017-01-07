@@ -1,6 +1,11 @@
 extends layouts/layout
 
 block content
+  form.ui.form#search(method="POST", action="/")
+    .ui.fluid.icon.input
+      input(type="text", name="location", placeholder="Where do you want to go..")
+      i.search.icon
+
   .ui.relaxed.divided.items
     each data in yelpData.businesses
       - var visiting = false
