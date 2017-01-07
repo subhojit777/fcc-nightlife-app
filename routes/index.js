@@ -12,29 +12,30 @@ router.use(getLocation.getLocation);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    yelp.search(req.fccNighlifeAppLocation, function(err, yelpResponse) {
-      if (err) next(err);
+  console.log(req.fccNighlifeAppLocation);
+  yelp.search(req.fccNighlifeAppLocation, function(err, yelpResponse) {
+    if (err) next(err);
 
-      if (req.user) {
-        User.findOne({ userId: req.user }, function(err, user) {
-          if (err) next(err);
+    if (req.user) {
+      User.findOne({ userId: req.user }, function(err, user) {
+        if (err) next(err);
 
-          res.render('index', {
-            title: 'Nighlife App',
-            loggedIn: true,
-            yelpData: yelpResponse,
-            visitingPlaces: user.visiting
-          });
-        });
-      }
-      else {
         res.render('index', {
           title: 'Nighlife App',
-          loggedIn: false,
-          yelpData: yelpResponse
+          loggedIn: true,
+          yelpData: yelpResponse,
+          visitingPlaces: user.visiting
         });
-      }
-    });
+      });
+    }
+    else {
+      res.render('index', {
+        title: 'Nighlife App',
+        loggedIn: false,
+        yelpData: yelpResponse
+      });
+    }
+  });
 });
 
 router.post('/', function(req, res, next) {
