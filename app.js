@@ -7,7 +7,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
-require('dotenv').config();
+require('dotenv').config({
+  silent: true
+});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

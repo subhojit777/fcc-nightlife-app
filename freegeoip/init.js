@@ -1,7 +1,6 @@
 'use strict';
 
 var exports = module.exports = {};
-require('dotenv').config();
 var request = require('request');
 
 exports.freeGeoIpData = function(ipAddress, cb) {

@@ -1,7 +1,9 @@
 'use strict';
 
 var exports = module.exports = {};
-require('dotenv').config();
+require('dotenv').config({
+  silent: true
+});
 
 exports.getIpAddress = function(req, res, next) {
   // Obtain the requester's IP.

@@ -2,7 +2,9 @@
 
 var exports = module.exports = {};
 var OAuth = require('oauth');
-require('dotenv').config();
+require('dotenv').config({
+  silent: true
+});
 
 var oauth = exports.oauth = new OAuth.OAuth(
   null,
