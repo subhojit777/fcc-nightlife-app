@@ -6,6 +6,7 @@ require('dotenv').config({
   silent: true
 });
 
+console.log(process.env.YELP_TOKEN);
 var oauth = exports.oauth = new OAuth.OAuth(
   null,
   null,
