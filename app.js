@@ -104,6 +104,8 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   User.findOne({'userId': id}, function(err, user) {
+    if (err) return done(err);
+
     done(null, user.userId);
   });
 });

@@ -11,7 +11,7 @@ exports.getLocation = function(req, res, next) {
   }
   else {
     freeGeoIp.freeGeoIpData(req.fccNighlifeAppIpAddress, function(err, freeGeoIpResponse) {
-      if (err) next(err);
+      if (err) return next(err);
 
       req.fccNighlifeAppLocation = freeGeoIpResponse['city'];
 

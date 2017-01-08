@@ -22,7 +22,7 @@ describe('Yelp', function() {
       this.timeout(5000);
 
       yelp.search('Delhi', function(err, data) {
-        if (err) done(err);
+        if (err) return done(err);
 
         assert.isNotNull(data);
         data.should.be.an('object');
@@ -42,7 +42,7 @@ describe('FreeGeoIp', function() {
       this.timeout(5000);
 
       freeGeoIp.freeGeoIpData(function(err, data) {
-        if (err) done(err);
+        if (err) return done(err);
 
         assert.isNotNull(data);
         data.should.be.an('object');

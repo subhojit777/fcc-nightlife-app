@@ -12,13 +12,12 @@ router.use(getLocation.getLocation);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(req.fccNighlifeAppLocation);
   yelp.search(req.fccNighlifeAppLocation, function(err, yelpResponse) {
-    if (err) next(err);
+    if (err) return next(err);
 
     if (req.user) {
       User.findOne({ userId: req.user }, function(err, user) {
-        if (err) next(err);
+        if (err) return next(err);
 
         res.render('index', {
           title: 'Nighlife App',
@@ -64,12 +63,12 @@ router.get('/logout', function(req, res, next) {
 
 router.post('/is-going', function(req, res, next) {
   User.checkIfVisiting(req.user, req.body.yelpId, function(err, doc) {
-    if (err) next(err);
+    if (err) return next(err);
 
     // Toggles whether the user is visiting the business.
     if (doc) {
       User.update({ userId: req.user }, { $pull: { visiting: req.body.yelpId } }, function(err, rawResponse) {
-        if (err) next(err);
+        if (err) return next(err);
 
         res.json({
           'success': rawResponse,
@@ -79,7 +78,7 @@ router.post('/is-going', function(req, res, next) {
     }
     else {
       User.update({ userId: req.user }, { $push: { visiting: req.body.yelpId } }, function(err, rawResponse) {
-        if (err) next(err);
+        if (err) return next(err);
 
         res.json({
           'success': rawResponse,

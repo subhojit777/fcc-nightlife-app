@@ -21,8 +21,9 @@ exports.search = function(city, cb) {
     'https://api.yelp.com/v2/search/?location=' + city,
     process.env.YELP_TOKEN,
     process.env.YELP_TOKEN_SECRET,
-    function(e, data, res) {
-      if (e) cb(e);
+    function(err, data, res) {
+      if (err) return cb(err);
+
       cb(null, JSON.parse(data));
     }
   );
