@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
       if (errData.error.id == "UNAVAILABLE_FOR_LOCATION") {
         return res.render('index', {
           title: 'Nighlife App',
-          loggedIn: false,
+          loggedIn: req.user ? true : false,
           yelpData: false
         });
       }
