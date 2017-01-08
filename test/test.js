@@ -41,7 +41,7 @@ describe('FreeGeoIp', function() {
       // Maybe the Yelp response can be slow.
       this.timeout(5000);
 
-      freeGeoIp.freeGeoIpData(function(err, data) {
+      freeGeoIp.freeGeoIpData(process.env.IP_ADDRESS, function(err, data) {
         if (err) return done(err);
 
         assert.isNotNull(data);
