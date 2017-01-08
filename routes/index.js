@@ -13,7 +13,22 @@ router.use(getLocation.getLocation);
 /* GET home page. */
 router.get('/', function(req, res, next) {
   yelp.search(req.fccNighlifeAppLocation, function(err, yelpResponse) {
-    if (err) return next(err);
+    if (err) {
+      var errData = JSON.parse(err.data);
+
+      // We handle this error specifically.
+      // We allow to render the home page, rather than throwing an error.
+      if (errData.error.id == "UNAVAILABLE_FOR_LOCATION") {
+        return res.render('index', {
+          title: 'Nighlife App',
+          loggedIn: false,
+          yelpData: false
+        });
+      }
+      else {
+        return next(err);
+      }
+    }
 
     if (req.user) {
       User.findOne({ userId: req.user }, function(err, user) {

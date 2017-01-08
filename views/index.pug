@@ -7,36 +7,37 @@ block content
       i.search.icon
 
   .ui.relaxed.divided.items
-    each data in yelpData.businesses
-      - var visiting = false
+    if yelpData
+      each data in yelpData.businesses
+        - var visiting = false
 
-      //- Check if user is visiting the current Yelp business.
-      if visitingPlaces
-        each place in visitingPlaces
-          if place == data.id
-            - visiting = true
+        //- Check if user is visiting the current Yelp business.
+        if visitingPlaces
+          each place in visitingPlaces
+            if place == data.id
+              - visiting = true
 
-      .item
-        if data.image_url
-          .ui.small.image
-            img(src= data.image_url)
-        .content
-          a.header(href= data.url, target="_blank")= data.name
-          .meta
-            each category in data.categories
-              = category
-          .extra
-            img(src= data.rating_img_url)
-          .extra
-             = data.phone
-          if data.is_closed
-            .ui.label Closed
-          else
-            .ui.label Opened
-          if loggedIn
-            if visiting
-              button.ui.miny.button.positive.visiting(data-yelp-id= data.id) Going
+        .item
+          if data.image_url
+            .ui.small.image
+              img(src= data.image_url)
+          .content
+            a.header(href= data.url, target="_blank")= data.name
+            .meta
+              each category in data.categories
+                = category
+            .extra
+              img(src= data.rating_img_url)
+            .extra
+               = data.phone
+            if data.is_closed
+              .ui.label Closed
             else
-              button.ui.miny.button.visiting(data-yelp-id= data.id) Going
+              .ui.label Opened
+            if loggedIn
+              if visiting
+                button.ui.miny.button.positive.visiting(data-yelp-id= data.id) Going
+              else
+                button.ui.miny.button.visiting(data-yelp-id= data.id) Going
 block script
   script(src='/javascript/visiting.js')
